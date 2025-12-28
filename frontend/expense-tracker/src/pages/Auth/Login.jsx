@@ -11,7 +11,7 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async(e) => {
     e.preventDefault()
 
     if(!validateEmail(email)) {
