@@ -1,4 +1,4 @@
-import User from "../models/User.model.js"
+import xlsx from "xlsx";
 import Income from "../models/Income.model.js"
 
 export const addIncome = async(req,res) => {
@@ -45,4 +45,24 @@ export const deleteIncome = async(req,res) => {
     }
 }
 
-export const downloadIncomeExcel = async(req,res) => {}
+export const downloadIncomeExcel = async(req,res) => {
+    const userId = req.user.id;
+    try {
+        const income = await Income.find({userId}).sort({date: -1});
+
+        // Prepare data for excel
+        const data = income.map((item) => ({
+            Source: item.source,
+            Amount: item.amount,
+            Date: item.date
+        }));
+
+        const wb = xlsx.utils.book_new();
+        const ws = xlsx.utils.json_to_sheet(data);
+        xlsx.utils.book_append_sheet(wb, ws, "Income");
+        xlsx.writeFile(wb, "income_details.xlsx");
+        res.download("income_details.xlsx");
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
