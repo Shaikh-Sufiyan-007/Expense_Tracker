@@ -3,14 +3,12 @@ import Expense from "../models/Expense.model.js"
 
 export const addExpense = async(req,res) => {
     const userId = req.user.id;
-    console.log(userId)
     try {
         const {icon, category, amount, date} = req.body;
 
         if(!category || !amount || !date) {
             return res.status(400).json({message: "All fields are required."})
         }
-        console.log(userId)
 
         const newExpense = new Expense({
             userId,
@@ -19,7 +17,6 @@ export const addExpense = async(req,res) => {
             amount,
             date: new Date(date)
         });
-        console.log(userId)
         await newExpense.save();
         res.status(201).json(newExpense);
 
