@@ -7,6 +7,7 @@ import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/auth.route.js";
 import incomeRoutes from "./routes/income.route.js";
 import expenseRoutes from "./routes/expense.route.js";
+import dashboardRoutes from "./routes/dashboard.route.js";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ const __dirname = path.dirname(__filename);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/income", incomeRoutes);
 app.use("/api/v1/expense", expenseRoutes);
+app.use("/api/v1/dashboard", dashboardRoutes);
 
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
