@@ -37,15 +37,15 @@ const Login = () => {
         email,
         password
       });
-      console.log(email)
       const {token, user} = response.data;
 
       if(token) {
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", JSON.stringify());
         updateUser(user)
         navigate("/dashboard")
       }
     } catch (error) {
+      console.log("Error logging in:", error.response?.data || error.message);
       if(error.response && error.response.data.message) {
         setError(error.response.data.message)
       } else {

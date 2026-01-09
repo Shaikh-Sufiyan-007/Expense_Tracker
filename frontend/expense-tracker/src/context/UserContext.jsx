@@ -3,9 +3,15 @@ import { createContext, useState } from "react";
 export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        const savedUser = localStorage.getItem("user");
+        return savedUser ? JSON.parse(savedUser) : null;
+    });
 
-    const updateUser = (userData) => setUser(userData);
+    const updateUser = (userData) => {
+        localStorage.setItem("user", JSON.stringify(userData));
+        setUser(userData)
+    }
 
     const clearUser = () => setUser(null);
 
