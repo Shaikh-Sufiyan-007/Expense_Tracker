@@ -12,9 +12,9 @@ const axiosInstance = axios.create({
 // Request interceptor
 axiosInstance.interceptors.request.use(
     (config) => {
-        const accessToken = localStorage.getItem("token");
-        if(accessToken) {
-            config.headers.Authorization = `Bearer ${accessToken}`
+        const token = localStorage.getItem("token")?.replace(/"/g, '');
+        if(token) {
+            config.headers.Authorization = `Bearer ${token}`
         }
         return config;
     },
