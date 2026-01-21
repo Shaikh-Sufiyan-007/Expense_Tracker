@@ -29,8 +29,8 @@ const TransactionInfoCard = ({
 
       <div className="flex-1 flex items-center justify-between ">
         <div>
-            <p className="text-sm text-gray-700 font-medium">{title}</p>
-            <p className="text-xs text-gray-400 mt-1">{date}</p>
+            <p className="text-md text-gray-700 font-medium">{title}</p>
+            <p className="text-sm text-gray-400 mt-1">{date}</p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -41,7 +41,7 @@ const TransactionInfoCard = ({
             )}
 
             <div className={`flex items-center gap-2 px-3 py-1.5 rounded-md ${getAmountStyles()}`}>
-                <h6 className="text-xs font-medium ">
+                <h6 className="text-sm font-medium ">
                     {type === "income" ? "+" : "-"} ${amount}
                 </h6>
                 {type === "income" ? <LuTrendingUp /> : <LuTrendingDown />}
