@@ -7,8 +7,13 @@ import { API_PATHS } from '../../utils/apiPaths'
 import Modal from '../../components/Modal'
 import AddIncomeForm from '../../components/Income/AddIncomeForm'
 import toast from 'react-hot-toast'
+import IncomeList from '../../components/Income/incomeList'
+import DeleteAlert from '../../components/DeleteAlert'
+import { useUserAuth } from '../../hooks/useUserAuth'
 
 const Income = () => {
+  useUserAuth();
+
   const [incomeData, setIncomeData] = useState([])
   const [loading, setLoading] = useState(false)
   const [openDeleteAlert, setOpenDeleteAlert] = useState({
@@ -73,7 +78,17 @@ const Income = () => {
   }
 
   // delete income
-  const deletIncome = async() => {};
+  const deletIncome = async(id) => {
+    try {
+      await axiosInstance.delete(API_PATHS.INCOME.DELETE_INCOME(id))
+
+      setOpenDeleteAlert({ show: false, data: null })
+      toast.success("Income deleted successfully")
+      fetchIncomeDetails()
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   // handle download income details
   const handleDownloadIncomeDetails = async() => {}
@@ -92,6 +107,14 @@ const Income = () => {
               onAddIncome={() => setOpenAddIncomeModal(true)}
             />
           </div>
+
+          <IncomeList
+            transactions={incomeData}
+            onDelete={(id) => {
+              setOpenDeleteAlert({ show: true, data: id })
+            }}
+            onDownload={handleDownloadIncomeDetails}
+          />
         </div>
 
         <Modal
@@ -100,6 +123,18 @@ const Income = () => {
           title="Add Income"
         >
           <AddIncomeForm onAddIncome={handleAddIncome} />
+        </Modal>
+
+        <Modal
+          isOpen={openDeleteAlert.show}
+          onClose={() => setOpenDeleteAlert({ show: false, date: null })}
+          title="Delete Income"
+          
+        >
+          <DeleteAlert 
+            content="Are you sure you want to delete this income?"
+            onDelete={() => deletIncome(openDeleteAlert.data)}
+          />
         </Modal>
       </div>
     </DashboardLayout>
