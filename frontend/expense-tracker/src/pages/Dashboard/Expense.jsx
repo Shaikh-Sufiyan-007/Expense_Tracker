@@ -5,6 +5,8 @@ import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
 import toast from 'react-hot-toast';
 import ExpenseOverview from '../../components/Expense/ExpenseOverview';
+import AddExpenseForm from '../../components/Expense/AddExpenseForm';
+import Modal from '../../components/Modal';
 
 const Expense = () => {
   useUserAuth();
@@ -38,7 +40,7 @@ const Expense = () => {
   }
 
   // Handle add income details
-  const handleExpenseIncome = async(expense) => {
+  const handleAddExpense = async(expense) => {
     const { category, amount, date, icon } = expense;
 
     if(!category.trim()) {
@@ -89,6 +91,14 @@ const Expense = () => {
             />
           </div>
         </div>
+
+        <Modal
+          isOpen={openAddExpenseModal}
+          onClose={() => setOpenAddExpenseModal(false)}
+          title="Add Expense"
+        >
+          <AddExpenseForm onAddExpense={handleAddExpense} />
+        </Modal>
       </div>
     </DashboardLayout>
   )
